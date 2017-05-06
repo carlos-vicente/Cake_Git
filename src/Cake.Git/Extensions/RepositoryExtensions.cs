@@ -8,7 +8,10 @@ namespace Cake.Git.Extensions
 {
     internal static class RepositoryExtensions
     {
-        internal static void UseRepository(this ICakeContext context, DirectoryPath repositoryPath, Action<Repository> repositoryAction)
+        internal static void UseRepository(
+            this ICakeContext context,
+            DirectoryPath repositoryPath,
+            Action<Repository> repositoryAction)
         {
             if (context == null)
             {
@@ -29,7 +32,8 @@ namespace Cake.Git.Extensions
 
             if (!context.FileSystem.Exist(absoluteRepositoryPath))
             {
-                throw new DirectoryNotFoundException($"Failed to find {nameof(repositoryPath)}: {absoluteRepositoryPath}");
+                throw new DirectoryNotFoundException(
+                    $"Failed to find {nameof(repositoryPath)}: {absoluteRepositoryPath}");
             }
 
             using (var repository = new Repository(absoluteRepositoryPath.FullPath))
@@ -38,7 +42,10 @@ namespace Cake.Git.Extensions
             }
         }
 
-        internal static TResult UseRepository<TResult>(this ICakeContext context, DirectoryPath repositoryPath, Func<Repository, TResult> repositoryFunc)
+        internal static TResult UseRepository<TResult>(
+            this ICakeContext context,
+            DirectoryPath repositoryPath,
+            Func<Repository, TResult> repositoryFunc)
         {
             if (context == null)
             {
@@ -59,7 +66,8 @@ namespace Cake.Git.Extensions
 
             if (!context.FileSystem.Exist(absoluteRepositoryPath))
             {
-                throw new DirectoryNotFoundException($"Failed to find {nameof(repositoryPath)}: {absoluteRepositoryPath}");
+                throw new DirectoryNotFoundException(
+                    $"Failed to find {nameof(repositoryPath)}: {absoluteRepositoryPath}");
             }
 
             using (var repository = new Repository(absoluteRepositoryPath.FullPath))

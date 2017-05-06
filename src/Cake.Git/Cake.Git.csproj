@@ -71,6 +71,7 @@
     <Compile Include="GitAliases.Push.cs" />
     <Compile Include="GitAliases.Tag.cs" />
     <Compile Include="GitBranch.cs" />
+    <Compile Include="GitBranchSettings.cs" />
     <Compile Include="GitChangeKind.cs" />
     <Compile Include="GitCloneSettings.cs" />
     <Compile Include="GitCommit.cs" />
