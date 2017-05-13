@@ -3,6 +3,7 @@ using Cake.Core;
 using Cake.Core.Annotations;
 using Cake.Core.IO;
 using Cake.Git.Extensions;
+using LibGit2Sharp;
 // ReSharper disable UnusedMember.Global
 
 namespace Cake.Git
@@ -80,6 +81,7 @@ namespace Cake.Git
         /// <param name="context">The context.</param>
         /// <param name="repositoryDirectoryPath">Path to repository.</param>
         /// <param name="branchName">The branch's name</param>
+        /// <param name="settings"></param>
         /// <returns>GitBranch which just got created</returns>
         /// <exception cref="ArgumentNullException">context or repositoryDirectoryPath</exception>
         /// <example>
@@ -111,9 +113,30 @@ namespace Cake.Git
                 repository => {
                     var head = repository.Head.Tip;
 
+                    context.Log.Write(
+                        Core.Diagnostics.Verbosity.Normal,
+                        Core.Diagnostics.LogLevel.Information,
+                        "Going to create a new branch with name {0}",
+                        branchName);
+
+                    //foreach(var branch in repository.Branches)
+                    //{
+                    //    context.Log.Write(
+                    //        Core.Diagnostics.Verbosity.Normal,
+                    //        Core.Diagnostics.LogLevel.Information,
+                    //        "Existing branch: {0}",
+                    //        branch.CanonicalName);
+                    //}
+
                     var newBranch = repository
                         .Branches
                         .Add(branchName, head, settings.AllowOverwrite);
+
+                    context.Log.Write(
+                        Core.Diagnostics.Verbosity.Normal,
+                        Core.Diagnostics.LogLevel.Information,
+                        "Branch with name {0} created",
+                        branchName);
 
                     if (settings.TrackOnRemote)
                     {
@@ -123,7 +146,12 @@ namespace Cake.Git
                             {
                                 updater.TrackedBranch = $"refs/remotes/{settings.Remote.Name}/{settings.Remote.BranchName ?? branchName}";
                             });
-                    }                    
+                    }
+
+                    if (settings.CheckoutNewBranch)
+                    {
+                        Commands.Checkout(repository, newBranch);
+                    }
 
                     return new GitBranch(repository);
                 });

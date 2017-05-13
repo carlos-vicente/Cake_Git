@@ -55,6 +55,7 @@
         public GitBranchSettings(GitBranchRemote remote)
         {
             Remote = remote;
+            CheckoutNewBranch = true;
         }
 
         /// <summary>
@@ -71,5 +72,10 @@
         /// 
         /// </summary>
         public GitBranchRemote Remote { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool CheckoutNewBranch { get; set; }
     }
 }

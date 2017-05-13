@@ -509,6 +509,12 @@ Task("Git-Remote-Branch")
     Information("Remote branch: {0}", branch);
 });
 
+Task("Git-Create-Branch")
+    .Does(() => {
+        var newBranch = GitCreateBranch(".", "new-branch");
+        Information("Remote branch: {0}", newBranch);
+    });
+
 Task("Git-Checkout")
     .Does(() =>
 {
@@ -606,6 +612,7 @@ Task("Default-Tests")
     .IsDependentOn("Git-Reset")
     .IsDependentOn("Git-Describe")
     .IsDependentOn("Git-Current-Branch")
+    .IsDependentOn("Git-Create-Branch")
     .IsDependentOn("Git-Remote-Branch")
     .IsDependentOn("Git-Checkout");
 
@@ -634,6 +641,7 @@ Task("Local-Tests")
     .IsDependentOn("Git-Describe")
     .IsDependentOn("Git-Current-Branch")
     .IsDependentOn("Git-Remote-Branch")
+    .IsDependentOn("Git-Create-Branch")
     .IsDependentOn("Git-Checkout");
 
 ///////////////////////////////////////////////////////////////////////////////
